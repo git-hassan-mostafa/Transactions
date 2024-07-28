@@ -1,7 +1,7 @@
 import { Injectable, NotImplementedException } from '@nestjs/common';
 import { CategoryRepositoryService } from '../../Repository/category-repository/category-repository.service';
 import { ResponseDTO } from '../../Helpers/DTO/ResponseDTO';
-import { CategoryMessageEnum } from '../../Helpers/Enums/MessageEnum';
+import { CategoryMessageEnum } from '../../Helpers/Enums/CategoryMessageEnum';
 import { StatusEnum } from '../../Helpers/Enums/ResponseEnum';
 import { ResponseService } from '../../helpers/services/response/response.service';
 import { Category } from '../../Models/Category';
@@ -9,11 +9,11 @@ import { Category } from '../../Models/Category';
 @Injectable()
 export class CategoryService {
   constructor(
-    private categoryDataAccess: CategoryRepositoryService,
+    private categoryRepository: CategoryRepositoryService,
     private responseService: ResponseService,
   ) {}
   async getCategory(id: number): Promise<ResponseDTO<Category>> {
-    const category = await this.categoryDataAccess.getCategory(id);
+    const category = await this.categoryRepository.getCategory(id);
     var response: ResponseDTO<Category>;
     if (category) {
       return (response = {
@@ -28,12 +28,12 @@ export class CategoryService {
         CategoryMessageEnum.NoDataFound,
       );
     }
-    response = this.responseService.failureResponse<Category>();
+    response = this.responseService.CategoryFailureResponse();
     return response;
   }
 
   async getAllCategories(): Promise<ResponseDTO<Category>> {
-    const allCategories = await this.categoryDataAccess.getAllCategories();
+    const allCategories = await this.categoryRepository.getAllCategories();
     var response: ResponseDTO<Category>;
     if (allCategories) {
       return (response = {
@@ -48,7 +48,7 @@ export class CategoryService {
         CategoryMessageEnum.NoDataFound,
       );
     }
-    response = this.responseService.failureResponse<Category>();
+    response = this.responseService.CategoryFailureResponse();
     return response;
   }
 
@@ -56,7 +56,7 @@ export class CategoryService {
     search: string,
   ): Promise<ResponseDTO<Category>> {
     const searchedcategories =
-      await this.categoryDataAccess.getAllCategoriesBySearch(search);
+      await this.categoryRepository.getAllCategoriesBySearch(search);
     var response: ResponseDTO<Category>;
     if (searchedcategories) {
       return (response = {
@@ -72,11 +72,11 @@ export class CategoryService {
         CategoryMessageEnum.NoDataFound,
       );
     }
-    response = this.responseService.failureResponse<Category>();
+    response = this.responseService.CategoryFailureResponse();
     return response;
   }
 
-  async addCategory(category: Category): Promise<ResponseDTO<Category>> {
+  async createCategory(category: Category): Promise<ResponseDTO<Category>> {
     var response: ResponseDTO<Category>;
     const categoryValidation = this.validateCategoryFields(category);
     if (categoryValidation) {
@@ -87,7 +87,7 @@ export class CategoryService {
         Data: [],
       });
     }
-    const newCategory = await this.categoryDataAccess.createCategory(category);
+    const newCategory = await this.categoryRepository.createCategory(category);
     if (newCategory) {
       return (response = {
         Status: StatusEnum.success,
@@ -96,7 +96,7 @@ export class CategoryService {
         Data: newCategory,
       });
     }
-    response = this.responseService.failureResponse<Category>();
+    response = this.responseService.CategoryFailureResponse();
     return response;
   }
 
@@ -104,7 +104,7 @@ export class CategoryService {
     id: number,
     category: Category,
   ): Promise<ResponseDTO<Category>> {
-    const updatedCategory = await this.categoryDataAccess.updateCategory(
+    const updatedCategory = await this.categoryRepository.updateCategory(
       id,
       category,
     );
@@ -117,13 +117,13 @@ export class CategoryService {
         Data: updatedCategory,
       });
     }
-    response = this.responseService.failureResponse<Category>();
+    response = this.responseService.CategoryFailureResponse();
     return response;
   }
 
   async deleteCategory(id: number): Promise<ResponseDTO<Category>> {
     const isRowSuccessfullyDeleted =
-      await this.categoryDataAccess.deleteCategory(id);
+      await this.categoryRepository.deleteCategory(id);
     var response: ResponseDTO<Category>;
     if (isRowSuccessfullyDeleted) {
       return (response = {
@@ -133,7 +133,7 @@ export class CategoryService {
         Status: StatusEnum.success,
       });
     }
-    response = this.responseService.failureResponse<Category>();
+    response = this.responseService.CategoryFailureResponse();
     return response;
   }
 

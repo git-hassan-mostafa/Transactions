@@ -17,7 +17,7 @@ export class Category {
   name: string;
 
   @Column({ nullable: true, default: 0 })
-  quantity: number;
+  quantity?: number;
 
   @Column({ nullable: false })
   price: number;
@@ -27,5 +27,5 @@ export class Category {
     () => TransactionItem,
     (transactionItem) => transactionItem.category,
   )
-  transactionItems: TransactionItem[];
+  transactionItems?: TransactionItem[];
 }

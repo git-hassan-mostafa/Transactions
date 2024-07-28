@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CategoryService } from './category.service';
 import { Category } from '../../Models/Category';
 import { CategoryRepositoryService } from '../../Repository/category-repository/category-repository.service';
-import { CategoryMessageEnum } from '../../Helpers/Enums/MessageEnum';
+import { CategoryMessageEnum } from '../../Helpers/Enums/CategoryMessageEnum';
 import { StatusEnum } from '../../Helpers/Enums/ResponseEnum';
 import { ResponseService } from '../../helpers/services/response/response.service';
 import { ResponseDTO } from '../../Helpers/DTO/ResponseDTO';
@@ -74,8 +74,8 @@ describe('CategoryService', () => {
   it('should return failure response if category data access getCategory returns false', async () => {
     jest.spyOn(categoryRepository, 'getCategory').mockResolvedValue(false);
     const result = await categoryService.getCategory(1);
-    expect(responseService.failureResponse).toHaveBeenCalled();
-    expect(result).toEqual(responseService.failureResponse());
+    expect(responseService.CategoryFailureResponse).toHaveBeenCalled();
+    expect(result).toEqual(responseService.CategoryFailureResponse());
   });
 
   it('should return failure response if no category found for this id', async () => {
@@ -94,8 +94,8 @@ describe('CategoryService', () => {
   it('should return failure response if get category from repository return false', async () => {
     jest.spyOn(categoryRepository, 'getCategory').mockResolvedValue(false);
     const result = await categoryService.getCategory(1);
-    expect(responseService.failureResponse).toHaveBeenCalled();
-    expect(result).toEqual(responseService.failureResponse());
+    expect(responseService.CategoryFailureResponse).toHaveBeenCalled();
+    expect(result).toEqual(responseService.CategoryFailureResponse());
   });
 
   it('should return all categories', async () => {
@@ -132,15 +132,15 @@ describe('CategoryService', () => {
   it('should return failure response if get all categories from repository return false', async () => {
     jest.spyOn(categoryRepository, 'getAllCategories').mockResolvedValue(false);
     const result = await categoryService.getAllCategories();
-    expect(responseService.failureResponse).toHaveBeenCalled();
-    expect(result).toEqual(responseService.failureResponse());
+    expect(responseService.CategoryFailureResponse).toHaveBeenCalled();
+    expect(result).toEqual(responseService.CategoryFailureResponse());
   });
 
   it('should return failure response if category data access get all categories returns false', async () => {
     jest.spyOn(categoryRepository, 'getAllCategories').mockResolvedValue(false);
     const result = await categoryService.getAllCategories();
-    expect(responseService.failureResponse).toHaveBeenCalled();
-    expect(result).toEqual(responseService.failureResponse());
+    expect(responseService.CategoryFailureResponse).toHaveBeenCalled();
+    expect(result).toEqual(responseService.CategoryFailureResponse());
   });
 
   it('should return all categories matching the search term', async () => {
@@ -181,8 +181,8 @@ describe('CategoryService', () => {
       .spyOn(categoryRepository, 'getAllCategoriesBySearch')
       .mockResolvedValue(false);
     const result = await categoryService.getAllCategoriesBySearch('cat');
-    expect(responseService.failureResponse).toHaveBeenCalled();
-    expect(result).toEqual(responseService.failureResponse());
+    expect(responseService.CategoryFailureResponse).toHaveBeenCalled();
+    expect(result).toEqual(responseService.CategoryFailureResponse());
   });
 
   it('should add a category successfully', async () => {
@@ -196,7 +196,7 @@ describe('CategoryService', () => {
       .spyOn(categoryRepository, 'createCategory')
       .mockResolvedValue(category);
 
-    const result = await categoryService.addCategory(category);
+    const result = await categoryService.createCategory(category);
     const response: ResponseDTO<Category> = {
       Status: StatusEnum.success,
       Message: CategoryMessageEnum.created,
@@ -213,7 +213,7 @@ describe('CategoryService', () => {
       .spyOn(categoryService, 'validateCategoryFields')
       .mockReturnValue(validationMessage);
 
-    const result = await categoryService.addCategory(category);
+    const result = await categoryService.createCategory(category);
     const response: ResponseDTO<Category> = {
       Status: StatusEnum.failed,
       Message: validationMessage,
@@ -230,7 +230,7 @@ describe('CategoryService', () => {
       .spyOn(categoryService, 'validateCategoryFields')
       .mockReturnValue(validationMessage);
 
-    const result = await categoryService.addCategory(category);
+    const result = await categoryService.createCategory(category);
     const response: ResponseDTO<Category> = {
       Status: StatusEnum.failed,
       Message: validationMessage,
@@ -247,7 +247,7 @@ describe('CategoryService', () => {
       .spyOn(categoryService, 'validateCategoryFields')
       .mockReturnValue(validationMessage);
 
-    const result = await categoryService.addCategory(category);
+    const result = await categoryService.createCategory(category);
     const response: ResponseDTO<Category> = {
       Status: StatusEnum.failed,
       Message: validationMessage,
@@ -262,9 +262,9 @@ describe('CategoryService', () => {
     jest.spyOn(categoryService, 'validateCategoryFields').mockReturnValue(null);
     jest.spyOn(categoryRepository, 'createCategory').mockReturnValue(null);
 
-    const result = await categoryService.addCategory(category);
-    expect(responseService.failureResponse).toHaveBeenCalled();
-    expect(result).toEqual(responseService.failureResponse());
+    const result = await categoryService.createCategory(category);
+    expect(responseService.CategoryFailureResponse).toHaveBeenCalled();
+    expect(result).toEqual(responseService.CategoryFailureResponse());
   });
 
   it('should fail to add if category data access add category return false', async () => {
@@ -272,9 +272,9 @@ describe('CategoryService', () => {
     jest.spyOn(categoryService, 'validateCategoryFields').mockReturnValue(null);
     jest.spyOn(categoryRepository, 'createCategory').mockResolvedValue(false);
 
-    const result = await categoryService.addCategory(category);
-    expect(responseService.failureResponse).toHaveBeenCalled();
-    expect(result).toEqual(responseService.failureResponse());
+    const result = await categoryService.createCategory(category);
+    expect(responseService.CategoryFailureResponse).toHaveBeenCalled();
+    expect(result).toEqual(responseService.CategoryFailureResponse());
   });
 
   it('should update a category successfully', async () => {
@@ -309,8 +309,8 @@ describe('CategoryService', () => {
     jest.spyOn(categoryRepository, 'updateCategory').mockResolvedValue(null);
 
     const result = await categoryService.updateCategory(id, category);
-    expect(responseService.failureResponse).toHaveBeenCalled();
-    expect(result).toEqual(responseService.failureResponse());
+    expect(responseService.CategoryFailureResponse).toHaveBeenCalled();
+    expect(result).toEqual(responseService.CategoryFailureResponse());
   });
 
   it('should fail to update a category if update category data access returns false', async () => {
@@ -319,8 +319,8 @@ describe('CategoryService', () => {
     jest.spyOn(categoryRepository, 'updateCategory').mockResolvedValue(false);
 
     const result = await categoryService.updateCategory(id, category);
-    expect(responseService.failureResponse).toHaveBeenCalled();
-    expect(result).toEqual(responseService.failureResponse());
+    expect(responseService.CategoryFailureResponse).toHaveBeenCalled();
+    expect(result).toEqual(responseService.CategoryFailureResponse());
   });
 
   it('should delete a category successfully', async () => {
@@ -342,8 +342,8 @@ describe('CategoryService', () => {
     jest.spyOn(categoryRepository, 'deleteCategory').mockResolvedValue(false);
 
     const result = await categoryService.deleteCategory(id);
-    expect(responseService.failureResponse).toHaveBeenCalled();
-    expect(result).toEqual(responseService.failureResponse());
+    expect(responseService.CategoryFailureResponse).toHaveBeenCalled();
+    expect(result).toEqual(responseService.CategoryFailureResponse());
   });
 
   it('should fail to delete a category if data access delete category returns null', async () => {
@@ -351,8 +351,8 @@ describe('CategoryService', () => {
     jest.spyOn(categoryRepository, 'deleteCategory').mockResolvedValue(null);
 
     const result = await categoryService.deleteCategory(id);
-    expect(responseService.failureResponse).toHaveBeenCalled();
-    expect(result).toEqual(responseService.failureResponse());
+    expect(responseService.CategoryFailureResponse).toHaveBeenCalled();
+    expect(result).toEqual(responseService.CategoryFailureResponse());
   });
 
   it('should return "category name is required" if name is missing', () => {
