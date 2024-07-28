@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { TransactionItem } from './TransactionItem';
 
 @Entity()
 export class Category {
@@ -9,10 +17,15 @@ export class Category {
   name: string;
 
   @Column({ nullable: true, default: 0 })
-  @Column()
-  quantity?: number;
+  quantity: number;
 
   @Column({ nullable: false })
-  @Column()
   price: number;
+
+  @Column({ type: 'simple-array', nullable: true })
+  @OneToMany(
+    () => TransactionItem,
+    (transactionItem) => transactionItem.category,
+  )
+  transactionItems: TransactionItem[];
 }

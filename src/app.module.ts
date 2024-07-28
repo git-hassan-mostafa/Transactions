@@ -16,6 +16,7 @@ import { join } from 'path';
 import { ResponseService } from './helpers/services/response/response.service';
 import { Currency } from './Models/Currency';
 import { Transaction } from './Models/Transaction';
+import { TransactionItem } from './Models/TransactionItem';
 
 @Module({
   imports: [
@@ -29,7 +30,14 @@ import { Transaction } from './Models/Transaction';
       port: 1433,
       password: '',
       database: 'Transactions',
-      entities: [Customer, CustomerPayment, Category, Currency, Transaction],
+      entities: [
+        Customer,
+        CustomerPayment,
+        Category,
+        Currency,
+        Transaction,
+        TransactionItem,
+      ],
       synchronize: true,
       extra: {
         options: {
@@ -37,7 +45,14 @@ import { Transaction } from './Models/Transaction';
         },
       },
     }),
-    TypeOrmModule.forFeature([Customer, CustomerPayment, Category]),
+    TypeOrmModule.forFeature([
+      Customer,
+      CustomerPayment,
+      Category,
+      Currency,
+      Transaction,
+      TransactionItem,
+    ]),
   ],
   controllers: [AppController, CustomersController, CategoriesController],
   providers: [

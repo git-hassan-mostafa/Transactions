@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Customer } from './Customer';
 import { CustomerPayment } from './CustomerPayment';
+import { TransactionItem } from './TransactionItem';
 
 @Entity()
 export class Transaction {
@@ -43,7 +44,14 @@ export class Transaction {
   @ManyToOne(() => Customer, (customer) => customer.payments)
   customer: Customer;
 
-  @Column({ type: 'simple-array' })
+  @Column({ type: 'simple-array', nullable: true })
+  @OneToMany(
+    () => TransactionItem,
+    (transactionItem) => transactionItem.transaction,
+  )
+  transactionItems: TransactionItem[];
+
+  @Column({ type: 'simple-array', nullable: true })
   @OneToMany(() => CustomerPayment, (payment) => payment.transaction)
   payments: CustomerPayment[];
 }

@@ -19,11 +19,11 @@ export class Customer {
   @Column({ default: 0, nullable: true })
   debt: number;
 
-  @Column({ type: 'simple-array' })
+  @Column({ type: 'simple-array', nullable: true })
   @OneToMany(() => CustomerPayment, (payment) => payment.customer)
   payments: CustomerPayment[];
 
-  @Column({ type: 'simple-array' })
+  @Column({ type: 'simple-array', nullable: true })
   @OneToMany(() => Transaction, (transaction) => transaction.customer)
   transactions: Transaction[];
 }
