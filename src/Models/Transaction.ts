@@ -17,26 +17,26 @@ export class Transaction {
   @Column({ type: 'nvarchar' })
   title: string;
 
-  @Column({ type: 'nvarchar', length: 'Max' })
-  description: string;
+  @Column({ type: 'nvarchar', length: 'Max', nullable: true })
+  description?: string;
 
-  @Column()
-  isCompleted: boolean;
+  @Column({ nullable: true, default: false })
+  isCompleted?: boolean;
 
   @Column({ type: 'bit' })
   transactionType: number;
 
-  @Column()
-  totalPrice: number;
+  @Column({ nullable: true, default: 0 })
+  totalPrice?: number;
 
-  @Column()
-  discountPrice: number;
+  @Column({ nullable: true, default: 0 })
+  discountPrice?: number;
 
-  @Column()
-  discountPercentage: number;
+  @Column({ nullable: true, default: 0 })
+  discountPercentage?: number;
 
-  @Column()
-  payedPrice: number;
+  @Column({ nullable: true, default: 0 })
+  payedPrice?: number;
 
   @Column()
   date: Date;
@@ -49,9 +49,9 @@ export class Transaction {
     () => TransactionItem,
     (transactionItem) => transactionItem.transaction,
   )
-  transactionItems: TransactionItem[];
+  transactionItems?: TransactionItem[];
 
   @Column({ type: 'simple-array', nullable: true })
   @OneToMany(() => CustomerPayment, (payment) => payment.transaction)
-  payments: CustomerPayment[];
+  payments?: CustomerPayment[];
 }

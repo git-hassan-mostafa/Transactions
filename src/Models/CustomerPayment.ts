@@ -10,8 +10,8 @@ export class CustomerPayment {
   @Column()
   amount: number;
 
-  @Column({ type: 'nvarchar', length: 'MAX' })
-  note: string;
+  @Column({ type: 'nvarchar', length: 'MAX', nullable: true })
+  note?: string;
 
   @Column()
   date: Date;

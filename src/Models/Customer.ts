@@ -11,19 +11,19 @@ export class Customer {
   firstName: string;
 
   @Column({ nullable: true, type: 'nvarchar', length: '15' })
-  lastName: string;
+  lastName?: string;
 
   @Column({ nullable: true, type: 'nvarchar', length: '15' })
-  phone: string;
+  phone?: string;
 
   @Column({ default: 0, nullable: true })
-  debt: number;
+  debt?: number;
 
   @Column({ type: 'simple-array', nullable: true })
   @OneToMany(() => CustomerPayment, (payment) => payment.customer)
-  payments: CustomerPayment[];
+  payments?: CustomerPayment[];
 
   @Column({ type: 'simple-array', nullable: true })
   @OneToMany(() => Transaction, (transaction) => transaction.customer)
-  transactions: Transaction[];
+  transactions?: Transaction[];
 }
